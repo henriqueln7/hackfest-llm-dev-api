@@ -1,6 +1,10 @@
-import openai
-openai.api_key = "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+import os
 
+import openai
+from dotenv import load_dotenv
+
+load_dotenv()
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
 SYSTEM_PROMPT = """
@@ -10,7 +14,7 @@ Use this opportunity to help students improve their coding skills through constr
 
 NEVER NOT BREAK THIS RULE: you must not include code in you solution, only advice in natural language."""
 
-code = """
+code_example = """
 public class PaymentService {
 
     public void processPayment(PaymentType paymentType, double amount) {
@@ -41,7 +45,7 @@ completion = openai.ChatCompletion.create(
         },
         {
             "role": "user",
-            "content": f"Code: {code}\n your advice should not include code"
+            "content": f"Code: {code_example}\n your advice should not include code"
         }
     ],
     max_tokens=256
